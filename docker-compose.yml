@@ -1,0 +1,45 @@
+services:
+  # Backend - Java Spring Boot
+  java_app:
+    container_name: java-app
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file: ./Backend/.env.app
+    depends_on:
+      - java_db
+    networks:
+      - app-network
+
+  # Base de datos - PostgreSQL
+  java_db:
+    container_name: java_db
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    env_file: ./Backend/.env.db
+    networks:
+      - app-network
+
+  # Frontend - Angular
+  angular_app:
+    container_name: angular-app
+    build:
+      context: ./Frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - "4300:4300"
+    volumes:
+      - ./Frontend:/app
+      - /app/node_modules
+    depends_on:
+      - java_app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+

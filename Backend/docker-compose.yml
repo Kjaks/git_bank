@@ -1,0 +1,18 @@
+services:
+  java_app:
+    container_name: java-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file: .env.app
+    depends_on:
+      - java_db
+
+  java_db:
+    container_name: java_db
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    env_file: .env.db
