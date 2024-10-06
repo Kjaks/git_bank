@@ -35,3 +35,6 @@ build/
 ### VS Passwords ###
 .env.app
 .env.db
+
+### Docker volume ###
+bin/postgres_data
