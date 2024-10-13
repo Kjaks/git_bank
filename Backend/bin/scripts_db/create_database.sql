@@ -30,10 +30,9 @@ CREATE TABLE IF NOT EXISTS cards (
 );
 
 CREATE TABLE IF NOT EXISTS client_balance (
-    card_id INT REFERENCES cards(card_id) ON DELETE CASCADE,
+    card_id INT PRIMARY KEY REFERENCES cards(card_id) ON DELETE CASCADE,
     balance DECIMAL(10, 2) DEFAULT 0.00 NOT NULL,
-    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (card_id)
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS transactions (
@@ -49,9 +48,12 @@ CREATE TABLE IF NOT EXISTS card_transactions (
     PRIMARY KEY (card_id, transaction_id)
 );
 
-ALTER TABLE cards ADD CONSTRAINT fk_client_id FOREIGN KEY (client_id) REFERENCES clients(client_id);
-ALTER TABLE client_balance ADD CONSTRAINT fk_card_id FOREIGN KEY (card_id) REFERENCES cards(card_id);
-ALTER TABLE card_transactions ADD CONSTRAINT fk_card_transaction_card FOREIGN KEY (card_id) REFERENCES cards(card_id);
-ALTER TABLE card_transactions ADD CONSTRAINT fk_card_transaction_transaction FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id);
+CREATE TABLE IF NOT EXISTS nonce_tokens (
+    nonce_id SERIAL PRIMARY KEY,
+    client_id INT REFERENCES clients(client_id) ON DELETE CASCADE,
+    nonce_token VARCHAR(255) NOT NULL,
+    expiration TIMESTAMP NOT NULL
+);
+
 
 COMMIT;

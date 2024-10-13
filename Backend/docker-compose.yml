@@ -19,6 +19,5 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./bin/postgres_data:/var/lib/postgresql/data
       - ./bin/scripts_db/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
     env_file: .env.db

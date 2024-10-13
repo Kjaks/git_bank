@@ -1,4 +1,4 @@
-package com.git_bank.demo.user;
+package com.git_bank.demo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
